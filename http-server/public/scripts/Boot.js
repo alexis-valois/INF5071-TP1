@@ -17,13 +17,13 @@ Rej.Boot.prototype = {
   create: function() {
    //loading screen will have a white background
     this.game.stage.backgroundColor = '#fff';
- 
-  
+   
     this.scale.pageAlignHorizontally = true;
     this.scale.pageAlignVertically = true;
     
     //physics system for movement
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
+    this.game.physics.arcade.gravity.y = 1000;
     this.state.start('Preload');
   }
 };
