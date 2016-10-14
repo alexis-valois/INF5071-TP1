@@ -11,7 +11,8 @@
         function create () {
 
             var rej = game.add.sprite(0, 0, 'rej');
-           	var walk = rej.animations.add('walk');
+           	var idle = rej.animations.add('idle', Array.apply(null, {length: 29}).map(Number.call, Number), 24, true);
+           	var walk = rej.animations.add('walk', Array.apply(null, {length: 32}).map(Number.call + 30, Number), 24, true);
            	rej.animations.play('walk', 24, true);
 
         }
