@@ -1,0 +1,26 @@
+{
+  "name": "Rej",
+  "description": "Simple Platoformer using Phaser",
+  "main": "./lib/http-server",
+  "authors": [
+    "Alexis Valois-Adamowicz"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "cli",
+    "command"
+  ],
+  "homepage": "https://github.com/alexis-valois/INF5071-TP1",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "phaser": "^2.6.2",
+    "underscore": "^1.8.3"
+  }
+}

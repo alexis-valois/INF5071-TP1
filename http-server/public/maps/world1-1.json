@@ -47,7 +47,7 @@
         {
          "columns":6,
          "firstgid":1,
-         "image":"..\/Sprites\/desert\/png\/Tile\/tileset.png",
+         "image":"ressources\/images\/tiles\/tileset.png",
          "imageheight":384,
          "imagewidth":768,
          "margin":0,
