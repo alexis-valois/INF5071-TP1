@@ -11,17 +11,20 @@ var tileSize = 32;
 
 Rej.Game.prototype = {
   create: function() {
+    this.stage.backgroundColor = '#55B4FF';
     map = this.add.tilemap('world1-1');
     map.addTilesetImage('GenericPlateformer', 'GenericPlateformer');
     this.sky = map.createLayer('Sky');
+    this.sky.fixedToCamera = false;
+    this.sky.position.set(0,40);
+
     this.background = map.createLayer('Background');
-    this.ground = map.createLayer('Ground');    
     
-    this.ground.resizeWorld();
+    this.middle = map.createLayer('25D');  
+    this.middle.fixedToCamera = false;
+    this.middle.position.set(0,40);
 
-    map.setCollisionBetween(1, 1000, true, this.ground);
-
-   	this.player = this.game.add.sprite(150, 500, 'rej');
+    this.player = this.game.add.sprite(150, 500, 'rej');
     this.player.animations.add('idle', _.range(0,29), 24, true);
     this.player.animations.add('walk', _.range(30,62), 40, true);
     this.player.animations.add('jump', _.range(63,78), 60, false);
@@ -36,12 +39,21 @@ Rej.Game.prototype = {
     this.backward = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
     this.jump = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
+    this.ground = map.createLayer('Ground');  
+    this.ground.resizeWorld();
+    map.setCollisionBetween(1, 1000, true, this.ground);
+    this.foreground = map.createLayer('Foreground');
+
     this.camera.follow(this.player, Phaser.Camera.FOLLOW_PLATFORMER);
     
   },
 
   update: function() {
   	this.game.physics.arcade.collide(this.player, this.ground);
+
+    this.middle.position.set(this.game.camera.x * 0.5, this.game.camera.y);
+    this.sky.position.set(this.game.camera.x * 0.25, this.game.camera.y);
+
     this.player.body.velocity.x = 0;
 
     if (previousYvelocity != 0 && this.player.body.onFloor()){
