@@ -15,6 +15,14 @@ Rej.Boot.prototype = {
   },
 
   create: function() {
+    this.game.stateTransition = this.game.plugins.add(Phaser.Plugin.StateTransition);
+
+    this.game.stateTransition.configure({  
+          duration: Phaser.Timer.SECOND * 0.8,  
+          ease: Phaser.Easing.Quadratic.Out, 
+          properties: {    alpha: 0  }
+    });
+
    //loading screen will have a white background
     this.game.stage.backgroundColor = '#fff';
    
@@ -24,6 +32,7 @@ Rej.Boot.prototype = {
     //physics system for movement
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.physics.arcade.gravity.y = 1000;
-    this.state.start('Preload');
+    //this.state.start('Preload');
+    this.game.stateTransition.to('Preload');
   }
 };

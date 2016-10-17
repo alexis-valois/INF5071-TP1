@@ -1,39 +1,37 @@
 /*
 Code adapté du tutoriel suivant : https://gamedevacademy.org/html5-phaser-tutorial-spacehipster-a-space-exploration-game/
 */
-
 var Rej = Rej || {};
 Rej.Game = function(){};
 
 var jumpTimer = 0;
 var previousYvelocity;
+var map;
+var tileSize = 32;
 
 Rej.Game.prototype = {
   create: function() {
+    map = this.add.tilemap('world1-1');
+    map.addTilesetImage('GenericPlateformer', 'GenericPlateformer');
+    this.sky = map.createLayer('Sky');
+    this.background = map.createLayer('Background');
+    this.ground = map.createLayer('Ground');    
+    
+    this.ground.resizeWorld();
 
-    var map = this.add.tilemap('map');
-    map.addTilesetImage('Ground', 'ground');
-    map.addTilesetImage('Tree', 'tree');
-    map.addTilesetImage('fleche', 'fleche');
-    map.addTilesetImage('crate', 'crate');
+    map.setCollisionBetween(1, 1000, true, this.ground);
 
-    this.layer = map.createLayer('Ground');
-    this.decor = map.createLayer('Decors');
-    this.layer.resizeWorld();
-
-    map.setCollisionBetween(1, 1000, true, this.layer);
-
-   	this.player = this.game.add.sprite(150, 350, 'rej');
-  	this.player.animations.add('idle', _.range(0,29), 24, true);
+   	this.player = this.game.add.sprite(150, 500, 'rej');
+    this.player.animations.add('idle', _.range(0,29), 24, true);
     this.player.animations.add('walk', _.range(30,62), 40, true);
     this.player.animations.add('jump', _.range(63,78), 60, false);
     this.player.animations.add('land', _.range(79,91), 60, false);
   	this.playerScore = 0;
   	this.game.physics.arcade.enable(this.player);
   	this.playerSpeed = 120;
-  	this.player.body.collideWorldBounds = true;
+    this.player.body.setSize(86,74,85,50)
+    this.player.body.checkCollision.up = false;
     this.player.anchor.setTo(.5, .5);
-    
     this.forward = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
     this.backward = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
     this.jump = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -43,7 +41,7 @@ Rej.Game.prototype = {
   },
 
   update: function() {
-  	this.game.physics.arcade.collide(this.player, this.layer);
+  	this.game.physics.arcade.collide(this.player, this.ground);
     this.player.body.velocity.x = 0;
 
     if (previousYvelocity != 0 && this.player.body.onFloor()){
@@ -84,5 +82,35 @@ Rej.Game.prototype = {
     }
 
     previousYvelocity = this.player.body.velocity.y;
+    checkSteps(this);
+    checkBounds(this);
   },
 };
+
+function checkBounds(rej){
+      if(rej.player.x < 100){
+        rej.player.x = 100;
+      }
+      if (rej.player.y > 1000){
+        rej.game.stateTransition.to('Game');
+      }
+}
+
+/*
+Mécanisme de l'escalier inspiré du code suivante : http://www.emanueleferonato.com/2015/05/12/phaser-tutorial-html5-player-movement-as-seen-in-ipad-magick-game-using-mostly-tile-maps/
+*/
+function checkSteps(rej){
+      if(rej.player.body.blocked.right && rej.player.body.velocity.x > 0){
+        if((!map.getTileWorldXY(rej.player.x+tileSize,rej.player.y-tileSize,tileSize,tileSize,rej.ground) && !map.getTileWorldXY(rej.player.x,rej.player.y-tileSize,tileSize,tileSize,rej.ground))){
+          rej.player.x += tileSize + 1;
+          rej.player.y -= tileSize;
+        }
+      }
+
+      if(rej.player.body.blocked.left && rej.player.body.velocity.x < 0){
+        if((!map.getTileWorldXY(rej.player.x-tileSize,rej.player.y-tileSize,tileSize,tileSize,rej.ground) && !map.getTileWorldXY(rej.player.x,rej.player.y-tileSize,tileSize,tileSize,rej.ground))){
+          rej.player.x -= tileSize + 1;
+          rej.player.y -= tileSize;
+        }
+      } 
+}

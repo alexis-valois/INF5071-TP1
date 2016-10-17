@@ -20,14 +20,13 @@ Rej.Preload.prototype = {
  
    //load game assets
    this.load.spritesheet('rej', 'assets/sprites/rej.png', 256, 128, 92);
-   this.load.tilemap('map', 'assets/maps/map.json', null, Phaser.Tilemap.TILED_JSON);
-   this.load.image('ground', 'assets/tiles/ground.png');
-   this.load.image('tree', 'assets/tiles/Tree.png');
-   this.load.image('fleche', 'assets/tiles/SignArrow.png');
-   this.load.image('crate', 'assets/tiles/Crate.png');
+   this.load.tilemap('world1-1', 'assets/maps/world1-1.json', null, Phaser.Tilemap.TILED_JSON);
+   this.load.image('Ground', 'assets/tiles/ground.png');
+   this.load.image('GenericPlateformer', 'assets/tiles/generic_platformer_tiles.png');
    
   },
   create: function() {
-   this.state.start('MainMenu');
+   //this.state.start('MainMenu');
+   this.game.stateTransition.to('MainMenu');
   }
 };
