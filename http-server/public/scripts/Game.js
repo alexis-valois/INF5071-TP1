@@ -7,6 +7,7 @@ Rej.Game = function(){};
 var jumpTimer = 0;
 var previousYvelocity;
 var map;
+var cafes;
 var tileSize = 32;
 
 Rej.Game.prototype = {
@@ -46,10 +47,16 @@ Rej.Game.prototype = {
 
     this.camera.follow(this.player, Phaser.Camera.FOLLOW_PLATFORMER);
     
+    cafes = this.game.add.group();
+    map.createFromObjects('Collectables', 'Cafe1', 'tasse', 0, true, false, cafes);
+    cafes.callAll('animations.add', 'animations', 'idle', _.range(0,38), 24, true);
+    cafes.callAll('animations.play', 'animations', 'idle');
+
   },
 
   update: function() {
   	this.game.physics.arcade.collide(this.player, this.ground);
+    this.game.physics.arcade.collide(this.player, cafes, collectCafe, null, this);
     this.player.body.velocity.x = 0;
 
     if (previousYvelocity != 0 && this.player.body.onFloor()){
@@ -121,4 +128,10 @@ function checkSteps(rej){
           rej.player.y -= tileSize;
         }
       } 
+}
+
+function collectCafe(player, cafe) {
+
+    cafe.kill();
+
 }
