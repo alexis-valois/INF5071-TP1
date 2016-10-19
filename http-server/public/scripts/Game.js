@@ -9,6 +9,8 @@ var previousYvelocity;
 var map;
 var cafes;
 var tileSize = 32;
+var nbCafes = 0;
+var playerSpeed = 250;
 
 Rej.Game.prototype = {
   create: function() {
@@ -31,9 +33,8 @@ Rej.Game.prototype = {
     this.player.animations.add('jump', _.range(63,78), 60, false);
     this.player.animations.add('land', _.range(79,91), 60, false);
   	this.playerScore = 0;
-  	this.game.physics.arcade.enable(this.player);
-  	this.playerSpeed = 120;
-    this.player.body.setSize(86,74,85,50)
+    this.game.physics.arcade.enable(this.player);
+    this.player.body.setSize(26,74,115,50)
     this.player.body.checkCollision.up = false;
     this.player.anchor.setTo(.5, .5);
     this.forward = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
@@ -47,10 +48,11 @@ Rej.Game.prototype = {
 
     this.camera.follow(this.player, Phaser.Camera.FOLLOW_PLATFORMER);
     
-    cafes = this.game.add.group();
-    map.createFromObjects('Collectables', 'Cafe1', 'tasse', 0, true, false, cafes);
+    cafes = this.game.add.physicsGroup();
+    map.createFromObjects('Collectables', 'Cafe1', 'tasse', 0, true, false, cafes, Phaser.Sprite, false);
     cafes.callAll('animations.add', 'animations', 'idle', _.range(0,38), 24, true);
     cafes.callAll('animations.play', 'animations', 'idle');
+    cafes.setAll('body.allowGravity', false);
 
   },
 
@@ -64,11 +66,11 @@ Rej.Game.prototype = {
     }
 
     if (this.forward.isDown) {
-      this.player.body.velocity.x = +250;
+      this.player.body.velocity.x = +playerSpeed;
     }
     
     if (this.backward.isDown) {
-      this.player.body.velocity.x = -250;
+      this.player.body.velocity.x = -playerSpeed;
     }
 
     if (this.player.body.velocity.x > 0 ){
@@ -106,7 +108,7 @@ function checkBounds(rej){
       if(rej.player.x < 100){
         rej.player.x = 100;
       }
-      if (rej.player.y > 1000){
+      if (!rej.player.inCamera){
         rej.game.stateTransition.to('Game');
       }
 }
@@ -131,7 +133,13 @@ function checkSteps(rej){
 }
 
 function collectCafe(player, cafe) {
-
+    playerSpeed += 50;
     cafe.kill();
-
+    var newCafe = this.game.add.sprite(10, 10, 'tasse');
+    newCafe.frame = 4;
+    newCafe.x += 16 + (nbCafes * 48);
+    newCafe.height = 48;
+    newCafe.width = 48;
+    newCafe.fixedToCamera = true;
+    nbCafes += 1;
 }
