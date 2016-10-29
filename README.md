@@ -19,6 +19,7 @@ Pour pouvoir lancer le jeu, il doit être hébergé sur un serveur web. Les tech
 ## Comment lancer le jeu
 
 Il y a quelques étapes à réaliser pour pouvoir lancer le jeu : 
+
 1. Installer Node.JS (développé avec la version 6.7) : [Télécharger Node.JS](https://nodejs.org/en/)
 2. À l'aide de l'utilitaire npm qui vient avec Node.JS, installer l'outil bower : ``` npm install -g bower ```
 (si des problèmes surviennent à cet étape, relancer la commande en mode "sodo")
