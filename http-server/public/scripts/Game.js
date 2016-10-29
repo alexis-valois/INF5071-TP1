@@ -21,11 +21,11 @@ Rej.Game.prototype = {
     this.sky.scrollFactorX = 0.1;
     this.sky.alpha = 0.5;
 
-    this.background = map.createLayer('Background');
-    
     this.middle = map.createLayer('25D');  
     this.middle.scrollFactorX = 0.2;
     this.middle.alpha = 0.75;
+
+    this.background = map.createLayer('Background');
 
     this.player = this.game.add.sprite(150, 500, 'rej');
     this.player.animations.add('idle', _.range(0,29), 24, true);
@@ -104,11 +104,18 @@ Rej.Game.prototype = {
   },
 };
 
+function reset(){
+  jumpTimer = 0;
+  nbCafes = 0;
+  playerSpeed = 250;
+}
+
 function checkBounds(rej){
       if(rej.player.x < 100){
         rej.player.x = 100;
       }
       if (!rej.player.inCamera){
+        reset()
         rej.game.stateTransition.to('Game');
       }
 }

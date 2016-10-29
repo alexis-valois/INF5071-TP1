@@ -2,3 +2,4 @@ http-server/node_modules/
 http-server/public/bower_components/
 npm-debug.log
 *.4262483917
+http-server/public/npm-debug.log.*
