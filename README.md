@@ -11,6 +11,7 @@
 - tiled-ressources : contient le fichier .tmx qui a servit à produire le niveau du jeu (1 seul niveau produit)
 - http-server : contient l'ensemble des fichiers qui constituent la portion serveur web léger
 - http-server/public : contient l'ensemble des fichiers qui constituent le jeu en tant que tel (scripts Javascript, ressources graphiques exportées depuis blender et Tiled, configurations). Ces fichiers sont retournés directement au naviguateur de l'utilisateur
+- presentation : presentation utilisée en classe
 
 ## Technologies utilisé
 
