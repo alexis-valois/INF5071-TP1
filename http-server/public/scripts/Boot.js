@@ -32,7 +32,6 @@ Rej.Boot.prototype = {
     //physics system for movement
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.physics.arcade.gravity.y = 1000;
-    //this.state.start('Preload');
     this.game.stateTransition.to('Preload');
   }
 };

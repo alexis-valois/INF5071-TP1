@@ -22,7 +22,6 @@ Rej.Preload.prototype = {
    this.load.spritesheet('rej', 'assets/sprites/rej.png', 256, 128, 92);
    this.load.spritesheet('tasse', 'assets/sprites/tasse.png', 256, 256, 38);
    this.load.tilemap('world1-1', 'assets/maps/world1-1.json', null, Phaser.Tilemap.TILED_JSON);
-   this.load.image('Ground', 'assets/tiles/ground.png');
    this.load.image('GenericPlateformer', 'assets/tiles/generic_platformer_tiles.png');
    
   },
